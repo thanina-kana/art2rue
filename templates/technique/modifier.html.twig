@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier une technique{% endblock %}
+
+{% block body %}
+    <h1>Modifier une technique</h1>
+    {{ form(formulaire) }}
+    <a href="{{ path("app_techniques") }}" class="btn btn-secondary mt-3">&lt; Retour à la liste des techniques</a>
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter une œuvre{% endblock %}
+
+{% block body %}
+    <h1>Ajouter une œuvre</h1>
+    {{ form(formulaire) }}
+    <a href="{{ path("app_oeuvres") }}" class="btn btn-secondary mt-3">&lt; Retour à la liste des œuvres</a>
+{% endblock %}

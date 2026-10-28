@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Les techniques{% endblock %}
+
+{% block body %}
+    <h1>Les techniques</h1>
+    <table class="table table-striped">
+        <tr>
+            <th>Technique</th>
+            <th>Nombre d'œuvres</th>
+            {% if app.user %}<th>Actions</th>{% endif %}
+        </tr>
+        {% for technique in techniques %}
+            <tr>
+                <td>{{ technique.nom }}</td>
+                <td>{{ technique.oeuvres|length }}</td>
+                {% if app.user %}
+                    <td>
+                        <a class="btn btn-warning" href="{{ path("app_modifier_technique", {"id": technique.id}) }}">Modifier</a>
+                        <a class="btn btn-danger" href="{{ path("app_supprimer_technique", {"id": technique.id}) }}">Supprimer</a>
+                    </td>
+                {% endif %}
+            </tr>
+        {% else %}
+            <tr><td colspan="3">Aucune technique pour le moment.</td></tr>
+        {% endfor %}
+    </table>
+    {% if app.user %}
+        <a class="btn btn-primary" href="{{ path("app_ajouter_technique") }}">Ajouter une technique</a>
+    {% endif %}
+{% endblock %}

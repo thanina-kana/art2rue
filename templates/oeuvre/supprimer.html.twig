@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Supprimer une œuvre{% endblock %}
+
+{% block body %}
+    <h1>Supprimer une œuvre</h1>
+    <h2>Êtes-vous sûr(e) de vouloir supprimer {{ oeuvre.titre }} ?</h2>
+    {{ form(formulaire) }}
+    <a href="{{ path("app_oeuvres") }}" class="btn btn-secondary mt-3">&lt; Retour à la liste des œuvres</a>
+{% endblock %}

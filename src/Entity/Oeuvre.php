@@ -30,18 +30,18 @@ class Oeuvre
 
     #[ORM\ManyToOne(inversedBy: 'oeuvres')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?lieu $lieu = null;
+    private ?Lieu $lieu = null;
 
     /**
-     * @var Collection<int, artiste>
+     * @var Collection<int, Artiste>
      */
-    #[ORM\ManyToMany(targetEntity: artiste::class, inversedBy: 'oeuvres')]
+    #[ORM\ManyToMany(targetEntity: Artiste::class, inversedBy: 'oeuvres')]
     private Collection $artistes;
 
     /**
-     * @var Collection<int, technique>
+     * @var Collection<int, Technique>
      */
-    #[ORM\ManyToMany(targetEntity: technique::class, inversedBy: 'oeuvres')]
+    #[ORM\ManyToMany(targetEntity: Technique::class, inversedBy: 'oeuvres')]
     private Collection $techniques;
 
     #[ORM\OneToOne(targetEntity: self::class, cascade: ['persist', 'remove'])]
@@ -113,12 +113,12 @@ class Oeuvre
         return $this;
     }
 
-    public function getLieu(): ?lieu
+    public function getLieu(): ?Lieu
     {
         return $this->lieu;
     }
 
-    public function setLieu(?lieu $lieu): static
+    public function setLieu(?Lieu $lieu): static
     {
         $this->lieu = $lieu;
 
@@ -126,14 +126,14 @@ class Oeuvre
     }
 
     /**
-     * @return Collection<int, artiste>
+     * @return Collection<int, Artiste>
      */
     public function getArtistes(): Collection
     {
         return $this->artistes;
     }
 
-    public function addArtiste(artiste $artiste): static
+    public function addArtiste(Artiste $artiste): static
     {
         if (!$this->artistes->contains($artiste)) {
             $this->artistes->add($artiste);
@@ -142,7 +142,7 @@ class Oeuvre
         return $this;
     }
 
-    public function removeArtiste(artiste $artiste): static
+    public function removeArtiste(Artiste $artiste): static
     {
         $this->artistes->removeElement($artiste);
 
@@ -150,14 +150,14 @@ class Oeuvre
     }
 
     /**
-     * @return Collection<int, technique>
+     * @return Collection<int, Technique>
      */
     public function getTechniques(): Collection
     {
         return $this->techniques;
     }
 
-    public function addTechnique(technique $technique): static
+    public function addTechnique(Technique $technique): static
     {
         if (!$this->techniques->contains($technique)) {
             $this->techniques->add($technique);
@@ -166,7 +166,7 @@ class Oeuvre
         return $this;
     }
 
-    public function removeTechnique(technique $technique): static
+    public function removeTechnique(Technique $technique): static
     {
         $this->techniques->removeElement($technique);
 

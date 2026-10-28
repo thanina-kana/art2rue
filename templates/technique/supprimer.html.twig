@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Supprimer une technique{% endblock %}
+
+{% block body %}
+    <h1>Supprimer une technique</h1>
+    <h2>Êtes-vous sûr(e) de vouloir supprimer {{ technique.nom }} ?</h2>
+    {{ form(formulaire) }}
+    <a href="{{ path("app_techniques") }}" class="btn btn-secondary mt-3">&lt; Retour à la liste des techniques</a>
+{% endblock %}

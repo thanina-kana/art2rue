@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Les œuvres{% endblock %}
+
+{% block body %}
+    <h1>Les œuvres</h1>
+    <table class="table table-striped">
+        <tr>
+            <th>Titre</th>
+            <th>Date</th>
+            <th>Artiste(s)</th>
+            <th>Lieu</th>
+            <th>Technique(s)</th>
+            <th>État</th>
+            {% if app.user %}<th>Actions</th>{% endif %}
+        </tr>
+        {% for oeuvre in oeuvres %}
+            <tr>
+                <td>
+                    <strong>{{ oeuvre.titre }}</strong>
+                    {% if oeuvre.oeuvreRecouverte %}
+                        <br><small class="text-muted">recouvre « {{ oeuvre.oeuvreRecouverte.titre }} »</small>
+                    {% endif %}
+                </td>
+                <td>{{ oeuvre.dateCreation ? oeuvre.dateCreation|date('d/m/Y') : 'inconnue' }}</td>
+                <td>
+                    {% for artiste in oeuvre.artistes %}
+                        {{ artiste.pseudo }}{% if not loop.last %}, {% endif %}
+                    {% else %}
+                        <em>Anonyme</em>
+                    {% endfor %}
+                </td>
+                <td>{{ oeuvre.lieu.nom }} <small class="text-muted">({{ oeuvre.lieu.quartier }})</small></td>
+                <td>
+                    {% for technique in oeuvre.techniques %}
+                        <span class="badge text-bg-secondary">{{ technique.nom }}</span>
+                    {% endfor %}
+                </td>
+                <td>
+                    {% if oeuvre.estDetruite %}
+                        <span class="badge text-bg-danger">Détruite</span>
+                    {% else %}
+                        <span class="badge text-bg-success">Visible</span>
+                    {% endif %}
+                </td>
+                {% if app.user %}
+                    <td>
+                        <a class="btn btn-warning" href="{{ path("app_modifier_oeuvre", {"id": oeuvre.id}) }}">Modifier</a>
+                        <a class="btn btn-danger" href="{{ path("app_supprimer_oeuvre", {"id": oeuvre.id}) }}">Supprimer</a>
+                    </td>
+                {% endif %}
+            </tr>
+        {% else %}
+            <tr><td colspan="7">Aucune œuvre pour le moment.</td></tr>
+        {% endfor %}
+    </table>
+    {% if app.user %}
+        <a class="btn btn-primary" href="{{ path("app_ajouter_oeuvre") }}">Ajouter une œuvre</a>
+    {% endif %}
+{% endblock %}

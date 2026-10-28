@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Les artistes{% endblock %}
+
+{% block body %}
+    <h1>Les artistes</h1>
+    <table class="table table-striped">
+        <tr>
+            <th>Pseudonyme</th>
+            <th>Nom réel</th>
+            <th>Nationalité</th>
+            <th>Biographie</th>
+            <th>Œuvres</th>
+            {% if app.user %}<th>Actions</th>{% endif %}
+        </tr>
+        {% for artiste in artistes %}
+            <tr>
+                <td><strong>{{ artiste.pseudo }}</strong></td>
+                <td>{{ artiste.nomReel ?? '—' }}</td>
+                <td>{{ artiste.nationalite ?? '—' }}</td>
+                <td>{{ artiste.bio|length > 80 ? artiste.bio|slice(0, 80) ~ '…' : artiste.bio }}</td>
+                <td>{{ artiste.oeuvres|length }}</td>
+                {% if app.user %}
+                    <td>
+                        <a class="btn btn-warning" href="{{ path("app_modifier_artiste", {"id": artiste.id}) }}">Modifier</a>
+                        <a class="btn btn-danger" href="{{ path("app_supprimer_artiste", {"id": artiste.id}) }}">Supprimer</a>
+                    </td>
+                {% endif %}
+            </tr>
+        {% else %}
+            <tr><td colspan="6">Aucun artiste pour le moment.</td></tr>
+        {% endfor %}
+    </table>
+    {% if app.user %}
+        <a class="btn btn-primary" href="{{ path("app_ajouter_artiste") }}">Ajouter un artiste</a>
+    {% endif %}
+{% endblock %}

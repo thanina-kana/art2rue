@@ -6,9 +6,13 @@ use App\Repository\BenevoleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: BenevoleRepository::class)]
-class Benevole
+#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+class Benevole implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -23,6 +27,12 @@ class Benevole
 
     #[ORM\Column(length: 50, unique: true)]
     private ?string $email = null;
+
+    #[ORM\Column]
+    private array $roles = [];
+
+    #[ORM\Column]
+    private ?string $password = null;
 
     /**
      * @var Collection<int, Photo>
@@ -76,6 +86,42 @@ class Benevole
         return $this;
     }
 
+    // ---------- Authentification ----------
+
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->email;
+    }
+
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): static
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    public function getPassword(): ?string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): static
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    // ---------- Photos ----------
+
     /**
      * @return Collection<int, Photo>
      */
@@ -97,7 +143,6 @@ class Benevole
     public function removePhoto(Photo $photo): static
     {
         if ($this->photos->removeElement($photo)) {
-            // set the owning side to null (unless already changed)
             if ($photo->getBenevole() === $this) {
                 $photo->setBenevole(null);
             }
