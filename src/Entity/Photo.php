@@ -27,6 +27,9 @@ class Photo
     #[ORM\JoinColumn(nullable: false)]
     private ?Benevole $Benevole = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $nomFichier = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -76,6 +79,18 @@ class Photo
     public function setBenevole(?Benevole $Benevole): static
     {
         $this->Benevole = $Benevole;
+
+        return $this;
+    }
+
+    public function getNomFichier(): ?string
+    {
+        return $this->nomFichier;
+    }
+
+    public function setNomFichier(string $nomFichier): static
+    {
+        $this->nomFichier = $nomFichier;
 
         return $this;
     }

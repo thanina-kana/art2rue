@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Supprimer une photo{% endblock %}
+
+{% block body %}
+    <h1>Supprimer une photo</h1>
+    <img src="{{ asset('Photos/' ~ photo.nomFichier) }}" alt="" class="img-thumbnail mb-3" style="max-height: 200px;">
+    <h2>Êtes-vous sûr(e) de vouloir supprimer cette photo de {{ photo.oeuvre.titre }} ?</h2>
+    {{ form(formulaire) }}
+    <a href="{{ path("app_photos") }}" class="btn btn-secondary mt-3">&lt; Retour aux photos</a>
+{% endblock %}

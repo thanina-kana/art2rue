@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Les photos{% endblock %}
+
+{% block body %}
+    <h1>Les photos</h1>
+    {% if app.user %}
+        <a class="btn btn-primary mb-4" href="{{ path("app_ajouter_photo") }}">Ajouter une photo</a>
+    {% endif %}
+
+    <div class="row">
+        {% for photo in photos %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <img class="card-img-top" src="{{ asset('Photos/' ~ photo.nomFichier) }}" alt="{{ photo.oeuvre.titre }}" style="height: 220px; object-fit: cover;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ photo.oeuvre.titre }}</h5>
+                        <h6 class="text-muted">
+                            {{ photo.oeuvre.lieu.nom }} · {{ photo.datePrise|date("d/m/Y H:i") }}
+                        </h6>
+                        {% if photo.etatOeuvre %}
+                            <p class="card-text">{{ photo.etatOeuvre }}</p>
+                        {% endif %}
+                        <p class="card-text"><small>📷 {{ photo.benevole.prenom }} {{ photo.benevole.nom }}</small></p>
+                        {% if app.user and photo.benevole == app.user %}
+                            <a href="{{ path("app_modifier_photo", {"id": photo.id}) }}" class="btn btn-sm btn-warning">Modifier</a>
+                            <a href="{{ path("app_supprimer_photo", {"id": photo.id}) }}" class="btn btn-sm btn-danger">Supprimer</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <p>Aucune photo pour le moment.</p>
+        {% endfor %}
+    </div>
+{% endblock %}
